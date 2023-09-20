@@ -16,18 +16,20 @@ static void WriteDoneHandler(void* arg) {
 ConsoleDriver::ConsoleDriver(const char* in, const char* out) {
 	readAvail = new Semaphore("read avail", 0);
 	writeDone = new Semaphore("write done", 0);
-	console = ...
+	console = new Console(in, out, ReadAvailHandler, WriteDoneHandler, NULL);
 }
 ConsoleDriver::~ConsoleDriver() {
 	delete console;
 	delete writeDone;
 	delete readAvail;
 }
-4 void ConsoleDriver::PutChar(int ch) {
-	// ...
+void ConsoleDriver::PutChar(int ch) {
+	console->TX(ch);
+	writeDone->P();
 }
 int ConsoleDriver::GetChar() {
-	// ...
+	readAvail->P();
+	console->RX();
 }
 void ConsoleDriver::PutString(const char* s) {
 	// ...
