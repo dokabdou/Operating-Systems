@@ -29,7 +29,7 @@ void ConsoleDriver::PutChar(int ch) {
 }
 int ConsoleDriver::GetChar() {
 	readAvail->P();
-	console->RX();
+	return console->RX();
 }
 void ConsoleDriver::PutString(const char* s) {
 	// ...
