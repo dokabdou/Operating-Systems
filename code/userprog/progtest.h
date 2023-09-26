@@ -11,8 +11,12 @@
 #ifndef PROGTEST_H
 #define PROGTEST_H
 
-extern void StartProcess (char *filename);
+extern void StartProcess(char* filename);
 
-extern void ConsoleTest (const char *in, const char *out);
+extern void ConsoleTest(const char* in, const char* out);
 
-#endif // PROGTEST_H
+#ifdef CHANGED
+void ConsoleDriverTest(const char* in, const char* out);
+#endif  // CHANGED
+
+#endif  // PROGTEST_H
