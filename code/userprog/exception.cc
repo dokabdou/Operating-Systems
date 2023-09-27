@@ -65,31 +65,26 @@ void ExceptionHandler(ExceptionType which) {
 	int type = machine->ReadRegister(2);
 	int address = machine->ReadRegister(BadVAddrReg);
 
-    switch (which)
-      {
-        case SyscallException:
-          {
-            switch (type)
-              {
-                case SC_Halt:
-                  {
-                    DEBUG ('s', "Shutdown, initiated by user program.\n");
-                    interrupt->Powerdown ();
-                    break;
-                  }
-                #ifdef CHANGED
-                case SC_PutChar :
-                  {
-                    DEBUG('s',"PutChar\n");
-                    
-                    break;
-                  }
-                #endif  // CHANGED
-                default:
-                  {
-                    ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
-                  }
-              }
+	switch (which) {
+		case SyscallException: {
+			switch (type) {
+				case SC_Halt: {
+					DEBUG('s', "Shutdown, initiated by user program.\n");
+					interrupt->Powerdown();
+					break;
+				}
+#ifdef CHANGED
+				case SC_PutChar: {
+					char c = machine->ReadRegister(4);
+					DEBUG('s', "PutChar : " + c);
+					consoledriver->PutChar(c);
+					break;
+				}
+#endif #CHANGED
+				default: {
+					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
+				}
+			}
 
 			// Do not forget to increment the pc before returning!
 			// This skips over the syscall instruction, to continue execution
