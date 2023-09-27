@@ -22,24 +22,21 @@
 // of liability and disclaimer of warranty provisions.
 
 #include "copyright.h"
-#include "system.h"
 #include "syscall.h"
+#include "system.h"
 
 //----------------------------------------------------------------------
 // UpdatePC : Increments the Program Counter register in order to resume
 // the user program immediately after the "syscall" instruction.
 //----------------------------------------------------------------------
-static void
-UpdatePC ()
-{
-    int pc = machine->ReadRegister (PCReg);
-    machine->WriteRegister (PrevPCReg, pc);
-    pc = machine->ReadRegister (NextPCReg);
-    machine->WriteRegister (PCReg, pc);
-    pc += 4;
-    machine->WriteRegister (NextPCReg, pc);
+static void UpdatePC() {
+	int pc = machine->ReadRegister(PCReg);
+	machine->WriteRegister(PrevPCReg, pc);
+	pc = machine->ReadRegister(NextPCReg);
+	machine->WriteRegister(PCReg, pc);
+	pc += 4;
+	machine->WriteRegister(NextPCReg, pc);
 }
-
 
 //----------------------------------------------------------------------
 // ExceptionHandler
@@ -64,73 +61,74 @@ UpdatePC ()
 //      are in machine.h.
 //----------------------------------------------------------------------
 
-void
-ExceptionHandler (ExceptionType which)
-{
-    int type = machine->ReadRegister (2);
-    int address = machine->ReadRegister (BadVAddrReg);
+void ExceptionHandler(ExceptionType which) {
+	int type = machine->ReadRegister(2);
+	int address = machine->ReadRegister(BadVAddrReg);
 
-    switch (which)
-      {
-        case SyscallException:
-          {
-            switch (type)
-              {
-                case SC_Halt:
-                  {
-                    DEBUG ('s', "Shutdown, initiated by user program.\n");
-                    interrupt->Powerdown ();
-                    break;
-                  }
-                default:
-                  {
-                    ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
-                  }
-              }
+	switch (which) {
+		case SyscallException: {
+			switch (type) {
+				case SC_Halt: {
+					DEBUG('s', "Shutdown, initiated by user program.\n");
+					interrupt->Powerdown();
+					break;
+				}
+#ifdef CHANGED
+				case SC_PutChar: {
+					char c = machine->ReadRegister(4);
+					DEBUG('s', "PutChar : " + c);
+					consoledriver->PutChar(c);
+					break;
+				}
+#endif #CHANGED
+				default: {
+					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
+				}
+			}
 
-            // Do not forget to increment the pc before returning!
-            // This skips over the syscall instruction, to continue execution
-            // with the rest of the program
-            UpdatePC ();
-            break;
-          }
+			// Do not forget to increment the pc before returning!
+			// This skips over the syscall instruction, to continue execution
+			// with the rest of the program
+			UpdatePC();
+			break;
+		}
 
-        case PageFaultException:
-          if (!address) {
-            ASSERT_MSG (FALSE, "NULL dereference at PC %x!\n", machine->registers[PCReg]);
-          } else {
-            // For now
-            ASSERT_MSG (FALSE, "Page Fault at address %x at PC %x\n", address, machine->registers[PCReg]);
-          }
-          break;
+		case PageFaultException:
+			if (!address) {
+				ASSERT_MSG(FALSE, "NULL dereference at PC %x!\n", machine->registers[PCReg]);
+			} else {
+				// For now
+				ASSERT_MSG(FALSE, "Page Fault at address %x at PC %x\n", address, machine->registers[PCReg]);
+			}
+			break;
 
-        case ReadOnlyException:
-          // For now
-          ASSERT_MSG (FALSE, "Read-Only at address %x at PC %x\n", address, machine->registers[PCReg]);
-          break;
+		case ReadOnlyException:
+			// For now
+			ASSERT_MSG(FALSE, "Read-Only at address %x at PC %x\n", address, machine->registers[PCReg]);
+			break;
 
-        case BusErrorException:
-          // For now
-          ASSERT_MSG (FALSE, "Invalid physical address at address %x at PC %x\n", address, machine->registers[PCReg]);
-          break;
+		case BusErrorException:
+			// For now
+			ASSERT_MSG(FALSE, "Invalid physical address at address %x at PC %x\n", address, machine->registers[PCReg]);
+			break;
 
-        case AddressErrorException:
-          // For now
-          ASSERT_MSG (FALSE, "Invalid address %x at PC %x\n", address, machine->registers[PCReg]);
-          break;
+		case AddressErrorException:
+			// For now
+			ASSERT_MSG(FALSE, "Invalid address %x at PC %x\n", address, machine->registers[PCReg]);
+			break;
 
-        case OverflowException:
-          // For now
-          ASSERT_MSG (FALSE, "Overflow at PC %x\n", machine->registers[PCReg]);
-          break;
+		case OverflowException:
+			// For now
+			ASSERT_MSG(FALSE, "Overflow at PC %x\n", machine->registers[PCReg]);
+			break;
 
-        case IllegalInstrException:
-          // For now
-          ASSERT_MSG (FALSE, "Illegal instruction at PC %x\n", machine->registers[PCReg]);
-          break;
+		case IllegalInstrException:
+			// For now
+			ASSERT_MSG(FALSE, "Illegal instruction at PC %x\n", machine->registers[PCReg]);
+			break;
 
-        default:
-          ASSERT_MSG (FALSE, "Unexpected user mode exception %d %d %x at PC %x\n", which, type, address, machine->registers[PCReg]);
-          break;
-      }
+		default:
+			ASSERT_MSG(FALSE, "Unexpected user mode exception %d %d %x at PC %x\n", which, type, address, machine->registers[PCReg]);
+			break;
+	}
 }
