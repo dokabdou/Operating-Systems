@@ -114,6 +114,7 @@ int main(int argc, char** argv) {
 #ifdef USER_PROGRAM
 		if (!strcmp(*argv, "-x")) {  // run a user program
 			ASSERT_MSG(argc > 1, "-x needs a program name\n");
+			consoledriver = new ConsoleDriver(NULL,NULL);
 			StartProcess(*(argv + 1));
 			argCount = 2;
 		} else if (!strcmp(*argv, "-c")) {  // test the console

@@ -40,6 +40,12 @@ PostOffice *postOffice;
 #endif
 
 
+#ifdef CHANGED
+#ifdef USER_PROGRAM
+ConsoleDriver *consoledriver;
+#endif
+#endif
+
 // External definition, to allow us to take a pointer to this function
 extern void Cleanup ();
 
@@ -227,6 +233,7 @@ Cleanup ()
 
 #ifdef USER_PROGRAM
     if (machine) {
+        delete consoledriver;
         delete machine;
         machine = NULL;
     }
