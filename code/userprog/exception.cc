@@ -76,7 +76,7 @@ void ExceptionHandler(ExceptionType which) {
 #ifdef CHANGED
 				case SC_PutChar: {
 					char c = machine->ReadRegister(4);
-					DEBUG('s', "PutChar : " + c);
+					DEBUG('s', "PutChar called \n");
 					consoledriver->PutChar(c);
 					break;
 				}
