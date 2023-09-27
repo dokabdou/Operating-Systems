@@ -80,7 +80,7 @@ void ExceptionHandler(ExceptionType which) {
 					consoledriver->PutChar(c);
 					break;
 				}
-#endif #CHANGED
+#endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
 				}
