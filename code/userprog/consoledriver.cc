@@ -3,6 +3,7 @@
 #include "copyright.h"
 #include "synch.h"
 #include "system.h"
+#include "machine.h"
 static Semaphore* readAvail;
 static Semaphore* writeDone;
 static void ReadAvailHandler(void* arg) {
