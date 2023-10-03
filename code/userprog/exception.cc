@@ -75,9 +75,18 @@ void ExceptionHandler(ExceptionType which) {
 				}
 #ifdef CHANGED
 				case SC_PutChar: {
-					char c = machine->ReadRegister(4);
 					DEBUG('s', "PutChar called \n");
+					char c = machine->ReadRegister(4);
 					consoledriver->PutChar(c);
+					break;
+				}
+				case SC_PutString: {
+					DEBUG('s', "PutString called \n");
+					int from = machine->ReadRegister(4);
+					char* buffer = new char[MAX_STRING_SIZE];
+					consoledriver->copyStringFromMachine(from, buffer, MAX_STRING_SIZE);
+					consoledriver->PutString(buffer);
+					delete[] buffer;
 					break;
 				}
 #endif  // CHANGED

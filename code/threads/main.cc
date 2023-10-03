@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
 #ifdef USER_PROGRAM
 		if (!strcmp(*argv, "-x")) {  // run a user program
 			ASSERT_MSG(argc > 1, "-x needs a program name\n");
-			consoledriver = new ConsoleDriver(NULL,NULL);
+			consoledriver = new ConsoleDriver(NULL, NULL);
 			StartProcess(*(argv + 1));
 			argCount = 2;
 		} else if (!strcmp(*argv, "-c")) {  // test the console
@@ -125,7 +125,9 @@ int main(int argc, char** argv) {
 				ConsoleTest(*(argv + 1), *(argv + 2));
 				argCount = 3;
 			}
-		} else if (!strcmp(*argv, "-sc")) {
+		}
+#ifdef CHANGED
+		else if (!strcmp(*argv, "-sc")) {
 			if (argc == 1)
 				ConsoleDriverTest(NULL, NULL);
 			else {
@@ -134,6 +136,7 @@ int main(int argc, char** argv) {
 				argCount = 3;
 			}
 		}
+#endif  // CHANGED
 #endif  // USER_PROGRAM
 #ifdef FILESYS
 		if (!strcmp(*argv, "-cp")) {  // copy from UNIX to Nachos

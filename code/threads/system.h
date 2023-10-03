@@ -9,52 +9,52 @@
 #define SYSTEM_H
 
 #include "copyright.h"
-#include "utility.h"
-#include "thread.h"
-#include "scheduler.h"
 #include "interrupt.h"
+#include "scheduler.h"
 #include "stats.h"
+#include "thread.h"
 #include "timer.h"
+#include "utility.h"
 
 // Initialization and cleanup routines
-extern void Initialize (int argc, char **argv); // Initialization,
+extern void Initialize(int argc, char** argv);  // Initialization,
                                                 // called before anything else
-extern void Cleanup (void);     // Cleanup, called when
+extern void Cleanup(void);                      // Cleanup, called when
                                                 // Nachos is done.
 
-extern Thread *currentThread;   // the thread holding the CPU
-extern Thread *threadToBeDestroyed; // the thread that just finished
-extern Scheduler *scheduler;    // the ready list
-extern Interrupt *interrupt;    // interrupt status
-extern Statistics *stats;       // performance metrics
-extern Timer *timer;            // the hardware alarm clock
+extern Thread* currentThread;        // the thread holding the CPU
+extern Thread* threadToBeDestroyed;  // the thread that just finished
+extern Scheduler* scheduler;         // the ready list
+extern Interrupt* interrupt;         // interrupt status
+extern Statistics* stats;            // performance metrics
+extern Timer* timer;                 // the hardware alarm clock
 
 #ifdef USER_PROGRAM
 #include "machine.h"
-extern Machine *machine;        // user program memory and registers
+extern Machine* machine;  // user program memory and registers
 #endif
 
-#ifdef FILESYS_NEEDED           // FILESYS or FILESYS_STUB
+#ifdef FILESYS_NEEDED  // FILESYS or FILESYS_STUB
 #include "filesys.h"
-extern FileSystem *fileSystem;
+extern FileSystem* fileSystem;
 #endif
 
 #ifdef FILESYS
 #include "synchdisk.h"
-extern SynchDisk *synchDisk;
+extern SynchDisk* synchDisk;
 #endif
 
 #ifdef NETWORK
 #include "post.h"
-extern PostOffice *postOffice;
+extern PostOffice* postOffice;
 #endif
 
 #ifdef CHANGED
 #ifdef USER_PROGRAM
 #include "consoledriver.h"
-extern ConsoleDriver *consoledriver;
+extern ConsoleDriver* consoledriver;
 #define MAX_STRING_SIZE 2048
 #endif
-#endif
+#endif  // CHANGED
 
-#endif // SYSTEM_H
+#endif  // SYSTEM_H

@@ -5,5 +5,8 @@
     "C_Cpp.default.defines": [
         "USER_PROGRAM=1",
         "CHANGED=1"
-    ]
+    ],
+    "files.associations": {
+        "syscall.h": "c"
+    }
 }

@@ -66,6 +66,14 @@ PutChar:
         syscall
         j        $31
         .end   PutChar
+        
+        .globl PutString
+        .ent   PutString
+PutString:
+        addiu $2,$0,SC_PutString
+        syscall
+        j        $31
+        .end   PutString
 
         .globl Halt
         .ent   Halt

@@ -3,7 +3,6 @@
 #include "copyright.h"
 #include "synch.h"
 #include "system.h"
-#include "machine.h"
 static Semaphore* readAvail;
 static Semaphore* writeDone;
 static void ReadAvailHandler(void* arg) {
@@ -33,27 +32,24 @@ int ConsoleDriver::GetChar() {
 	return console->RX();
 }
 void ConsoleDriver::PutString(const char* s) {
-	int c = 0; 
-	while(s[c] != '/0') {
+	int c = 0;
+	while (s[c] != '\0') {
 		PutChar(s[c]);
-        c++;
+		c++;
 	}
 }
 
-unsigned copyStringFromMachine(int from, char *to, unsigned size) {
-	
-	unsigned buffer = '/0';	
+unsigned ConsoleDriver::copyStringFromMachine(int from, char* to, unsigned size) {
+	int buffer = '\0';
 	unsigned cp = 0;
-	ReadMem(from, 1, &buffer);
-
-	while(cp < MAX_STRING_SIZE ){
+	while (cp < size) {
+		machine->ReadMem(from + cp, 1, &buffer);
 		to[cp] = buffer;
 		cp++;
-		if(buffer == '/0') {
+		if (buffer == '\0')
 			return cp;
-		}
 	}
-	to[cp-1] = '/0';
+	to[cp - 1] = '\0';
 	return cp;
 }
 void ConsoleDriver::GetString(char* s, int n) {
