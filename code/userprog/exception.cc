@@ -75,13 +75,13 @@ void ExceptionHandler(ExceptionType which) {
 				}
 #ifdef CHANGED
 				case SC_PutChar: {
-					DEBUG('s', "PutChar called \n");
+					DEBUG('s', "PutChar called.\n");
 					char c = machine->ReadRegister(4);
 					consoledriver->PutChar(c);
 					break;
 				}
 				case SC_PutString: {
-					DEBUG('s', "PutString called \n");
+					DEBUG('s', "PutString called.\n");
 					int from = machine->ReadRegister(4);
 					char* buffer = new char[MAX_STRING_SIZE];
 					consoledriver->copyStringFromMachine(from, buffer, MAX_STRING_SIZE);
@@ -90,8 +90,10 @@ void ExceptionHandler(ExceptionType which) {
 					break;
 				}
 				case SC_Exit: {
-					DEBUG('s', "Shutdown, not initiated by user program.\n");
-					//CleanUp();
+					DEBUG('s', "Exit called.\n");
+					int status = machine->ReadRegister(2);
+					DEBUG('s', "Exit status: %d\n", status);
+					interrupt->Powerdown();
 					break;
 				}
 #endif  // CHANGED

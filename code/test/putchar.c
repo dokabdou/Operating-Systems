@@ -15,7 +15,6 @@ void print(char c, int n) {
 // que spécifié et que c'est l'ordre de l'alphabet
 int main() {
 	print('a', 30);
-	Halt();
-	return 0;
+	return 12;
 }
 #endif  // CHANGED
