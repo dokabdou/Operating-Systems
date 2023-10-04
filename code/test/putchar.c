@@ -10,18 +10,11 @@ void print(char c, int n) {
 	PutChar('\n');
 }
 
-// soit sans argument et ca print 30 char soit
-// avec un argument et ca print le nombre de char spécifié,
+// sans argument et ca print 30 char
 // il suffit de regarder s'il y a le meme nombre de characteres
-// que spécifié et que c'est bien l'alphabet
-int main(int argc, char** argv) {
-	if (argc < 2) {
-		print('a', 30);
-		Halt();
-		return 0;
-	}
-	int size = atoi(argv[1]);
-	print('a', size);
+// que spécifié et que c'est l'ordre de l'alphabet
+int main() {
+	print('a', 30);
 	Halt();
 	return 0;
 }
