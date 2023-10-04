@@ -89,7 +89,12 @@ void ConsoleDriver::GetString(char *s, int n)
 unsigned ConsoleDriver::copyStringToMachine(char *from, int to, unsigned size)
 {
 	
+	unsigned c = 0;
+	while(c < size && from[c] != '\0'){
+		machine->WriteMem(to, 1, from[c]);
+		c++;
+	}
 	
-	return 1;
+	return c;
 }
 #endif // CHANGED
