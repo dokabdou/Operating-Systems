@@ -65,5 +65,31 @@ unsigned ConsoleDriver::copyStringFromMachine(int from, char *to, unsigned size)
 void ConsoleDriver::GetString(char *s, int n)
 {
 	// ...
+	int c = 0;
+	int rd;  // read character
+	for(; c<n-1; c++){
+		rd = GetChar();
+		if(rd == '\n'){
+			// if it is a newline character it puts it copies it to s and then stops the program 
+			s[c] = rd;
+			s[c+1] = '\0';
+			return;
+		}
+		if (rd == EOF){
+			s[c+1] = '\0';
+			return;
+		}
+		s[c] = rd;
+	}
+	// appending a teminating null character after the copied characters
+	s[c+1] = '\0';
+
+}
+
+unsigned ConsoleDriver::copyStringToMachine(char *from, int to, unsigned size)
+{
+	
+	
+	return 1;
 }
 #endif // CHANGED
