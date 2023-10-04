@@ -89,6 +89,11 @@ void ExceptionHandler(ExceptionType which) {
 					delete[] buffer;
 					break;
 				}
+				case SC_Exit: {
+					DEBUG('s', "Shutdown, not initiated by user program.\n");
+					//CleanUp();
+					break;
+				}
 #endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
