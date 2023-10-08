@@ -139,8 +139,6 @@ void PutChar(char c);
 void PutString(const char* s);
 void GetChar(const char* s);
 void GetString(char* s, int n);
-void PutInt(int n);
-int GetInt(void);
 #endif  // CHANGED
 #endif  // IN_USER_MODE
 

@@ -114,18 +114,20 @@ void ExceptionHandler(ExceptionType which) {
 				case SC_PutInt: {
 					DEBUG('s', "PutInt called.\n");
 					int n = machine->ReadRegister(4);
-					char buffer[MAX_STRING_SIZE];
+					char* buffer = new char[MAX_STRING_SIZE];
 					snprintf(buffer, MAX_STRING_SIZE, "%d", n);
 					consoledriver->PutString(buffer);
+					delete[] buffer;
 					break;
 				}
 				case SC_GetInt: {
 					DEBUG('s', "GetInt called.\n");
 					int n = 0;
-					char buffer[MAX_STRING_SIZE];
+					char* buffer = new char[MAX_STRING_SIZE];
 					consoledriver->GetString(buffer, MAX_STRING_SIZE);
 					sscanf(buffer, "%d", &n);
 					machine->WriteRegister(2, n);
+					delete[] buffer;
 					break;
 				}
 #endif  // CHANGED
