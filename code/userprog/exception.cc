@@ -96,6 +96,21 @@ void ExceptionHandler(ExceptionType which) {
 					interrupt->Powerdown();
 					break;
 				}
+				case SC_GetChar: {
+					DEBUG('s', "GetChar called.\n");
+					int c = consoledriver->GetChar();
+					machine->WriteRegister(2, c);
+					break;
+				}
+				case SC_GetString: {
+					DEBUG('s', "GetString called.\n");
+					int to = machine->ReadRegister(4);
+					char* buffer = new char[MAX_STRING_SIZE];
+					consoledriver->GetString(buffer, MAX_STRING_SIZE);
+					consoledriver->copyStringToMachine(buffer, to, MAX_STRING_SIZE);
+					delete[] buffer;
+					break;
+				}
 #endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
