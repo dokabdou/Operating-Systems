@@ -1,6 +1,8 @@
 #ifdef CHANGED
 #include "syscall.h"
 
+// dans le fichier code/userprog faire : ./nachos -d s -x ../test/putchar
+
 void print(char c, int n) {
 	int i;
 
@@ -10,11 +12,13 @@ void print(char c, int n) {
 	PutChar('\n');
 }
 
-// sans argument et ca print 30 char
-// il suffit de regarder s'il y a le meme nombre de characteres
-// que spécifié et que c'est l'ordre de l'alphabet
+// le test ne prend pas d'argument et il print 30 caracteres
+// il suffit de regarder si les caracteres sont bien ceux attendus
+// et que les appels systemes on bien été effectués
+// ce test verifie bien que putchar arrive a ecrire differents
+// caracteres dans la console
 int main() {
 	print('a', 30);
-	return 12;
+	return 0;
 }
 #endif  // CHANGED

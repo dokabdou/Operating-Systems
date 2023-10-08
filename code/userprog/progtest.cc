@@ -111,6 +111,11 @@ void ConsoleTest(const char* in, const char* out) {
 }
 
 #ifdef CHANGED
+// ./nachos -sc
+
+/// @brief Test the console driver by echoing characters typed at the input onto (uses the console driver's methods: GetChar and PutChar)
+/// @param in the input file
+/// @param out the output file
 void ConsoleDriverTest(const char* in, const char* out) {
 	char ch;
 	ConsoleDriver* test_consoledriver = new ConsoleDriver(in, out);
