@@ -111,6 +111,23 @@ void ExceptionHandler(ExceptionType which) {
 					delete[] buffer;
 					break;
 				}
+				case SC_PutInt: {
+					DEBUG('s', "PutInt called.\n");
+					int n = machine->ReadRegister(4);
+					char buffer[MAX_STRING_SIZE];
+					snprintf(buffer, MAX_STRING_SIZE, "%d", n);
+					consoledriver->PutString(buffer);
+					break;
+				}
+				case SC_GetInt: {
+					DEBUG('s', "GetInt called.\n");
+					int n = 0;
+					char buffer[MAX_STRING_SIZE];
+					consoledriver->GetString(buffer, MAX_STRING_SIZE);
+					sscanf(buffer, "%d", &n);
+					machine->WriteRegister(2, n);
+					break;
+				}
 #endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
