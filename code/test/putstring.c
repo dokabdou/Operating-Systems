@@ -1,7 +1,6 @@
 #ifdef CHANGED
 #include "syscall.h"
 
-// TODO: changer c'est pas dans la memeoire
 void fillString(char* toTest, int size) {
 	int i;
 	for (i = 0; i < size; i++) {
