@@ -24,6 +24,9 @@
 #include "copyright.h"
 #include "syscall.h"
 #include "system.h"
+#ifdef CHANGED
+#include "userthread.h"
+#endif  // CHANGED
 
 //----------------------------------------------------------------------
 // UpdatePC : Increments the Program Counter register in order to resume
@@ -130,6 +133,20 @@ void ExceptionHandler(ExceptionType which) {
 					delete[] buffer;
 					break;
 				}
+				case SC_ThreadCreate: {
+					int f =   machine->ReadRegister(4);
+					int arg = machine->ReadRegister(5);
+					
+					do_ThreadCreate(f,arg);
+					break;
+				}
+
+				case SC_ThreadExit: {
+
+					break;
+				}
+
+
 #endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
