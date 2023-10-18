@@ -71,7 +71,7 @@ static void StartUserThread(void *schmurtz){
 }
 
 
-void do_ThreadExit(int f, int arg){
+void do_ThreadExit(){
     currentThread->Finish();
     //currentThread->space = 
 }
