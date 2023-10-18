@@ -19,11 +19,18 @@
 #include "noff.h"
 #include "list.h"
 
+#ifdef CHANGED
+#define ThreadStacksAreaSize 256
+#endif  // CHANGED
 #define UserStacksAreaSize		1024	// increase this as necessary!
 
 class AddrSpace:public dontcopythis
 {
   public:
+
+    #ifdef CHANGED
+    int AllocateUserStack(); //  returns top of stack
+    #endif  // CHANGED
     AddrSpace (OpenFile * executable); // Create an address space,
     // initializing it with the program
     // stored in the file "executable"

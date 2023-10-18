@@ -51,6 +51,18 @@ SwapHeader (NoffHeader * noffH)
 //----------------------------------------------------------------------
 List AddrSpaceList;
 
+
+#ifdef CHANGED
+
+int AddrSpace::AllocateUserStack(){
+
+    return UserStacksAreaSize - ThreadStacksAreaSize < 0 ? UserStacksAreaSize - ThreadStacksAreaSize : -1;
+}
+
+#endif  // CHANGED
+
+
+
 //----------------------------------------------------------------------
 // AddrSpace::AddrSpace
 //      Create an address space to run a user program.

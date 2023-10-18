@@ -133,16 +133,19 @@ void ExceptionHandler(ExceptionType which) {
 					delete[] buffer;
 					break;
 				}
-				case SC_ThreadCreate: {
-					int f =   machine->ReadRegister(4);
-					int arg = machine->ReadRegister(5);
-					
-					do_ThreadCreate(f,arg);
+				case SC_ThreadCreate: {			
+					// 		
+					do_ThreadCreate(machine->ReadRegister(4),machine->ReadRegister(5));
 					break;
 				}
 
 				case SC_ThreadExit: {
 
+					while(1){
+						currentThread->Yield();
+						//forces Scheduler to check for waiting threads and yields to waiting processes
+						//
+					}
 					break;
 				}
 
