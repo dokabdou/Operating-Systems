@@ -8,7 +8,9 @@ int f(a){
 }
 
 int main(){
-
+    ThreadCreate(f, "test");
+    PutString("main");
+    ThreadExit();
 }
 
 #endif  // CHANGED
