@@ -134,7 +134,6 @@ void ExceptionHandler(ExceptionType which) {
 					break;
 				}
 				case SC_ThreadCreate: {
-					//
 					int t = do_ThreadCreate(machine->ReadRegister(4), machine->ReadRegister(5));
 					// machine->WriteRegister(2, t); // ??
 					break;
@@ -142,10 +141,10 @@ void ExceptionHandler(ExceptionType which) {
 
 				case SC_ThreadExit: {
 					do_ThreadExit();
-					// while (1) {
-					currentThread->Yield();
-					// forces Scheduler to check for waiting threads and yields to waiting processes
-					// }
+					while (1) {
+						currentThread->Yield();
+						// forces Scheduler to check for waiting threads and yields to waiting processes
+					}
 					break;
 				}
 

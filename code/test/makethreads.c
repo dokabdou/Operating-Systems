@@ -2,14 +2,15 @@
 #include "syscall.h"
 
 void f(void* a) {
-	PutString(a);
+	PutChar(*(char*)a);
 	ThreadExit();
 }
 
 int main() {
-	int ret = ThreadCreate(f, "test");
+	int ret = ThreadCreate(f, "t");
+
+	PutChar('m');
 	ThreadExit();
-	DEBUG('s', "ThreadCreate = %d\n", ret);
 	return 0;
 }
 
