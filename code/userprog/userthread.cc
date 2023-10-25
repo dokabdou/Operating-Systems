@@ -45,7 +45,6 @@ int do_ThreadCreate(int f, int arg) {
 
 	Thread* newThread = new Thread("T1");
 	newThread->space = currentThread->space;  // giving the child thread the same space as the parent thread
-
 	// thread will be in the same address space
 
 	Args* args = (Args*)malloc(sizeof(Args));
@@ -61,7 +60,7 @@ int do_ThreadCreate(int f, int arg) {
 
 void do_ThreadExit() {
 	currentThread->Finish();
-	currentThread->space -= 256; // resetting its address space 
+	currentThread->space -= 256;  // resetting its address space
 }
 
 #endif  // CHANGED

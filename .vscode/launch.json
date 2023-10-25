@@ -13,7 +13,7 @@
                 "-d",
                 "s",
                 "-x",
-                "${workspaceFolder}/code/test/putstring"
+                "${workspaceFolder}/code/test/makethreads"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
