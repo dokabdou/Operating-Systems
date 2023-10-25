@@ -7,10 +7,10 @@ void f(void* a) {
 }
 
 int main() {
-	int ret = ThreadCreate(f, "t");
-
-	PutChar('m');
-	ThreadExit();
+	int ret = ThreadCreate(f, "test");
+	
+    ThreadExit();
+	//DEBUG('s', "ThreadCreate = %d\n", ret);
 	return 0;
 }
 

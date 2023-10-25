@@ -52,7 +52,13 @@ List AddrSpaceList;
 
 int AddrSpace::AllocateUserStack() {
 	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d\n", UserStacksAreaSize, ThreadStacksAreaSize);
-	return UserStacksAreaSize - ThreadStacksAreaSize < 0 ? -1 : UserStacksAreaSize - ThreadStacksAreaSize;
+    // (UserStacksAreaSize - 16-256) * numThreads 
+    // need to add semaphores and locks
+
+    int numThreads = 1; // TODO: thread counter, for now only the main
+    int spaceThreads = numThreads*256;
+
+	return UserStacksAreaSize - spaceThreads < 0 ? -1 : UserStacksAreaSize - spaceThreads;
 }
 
 #endif  // CHANGED
