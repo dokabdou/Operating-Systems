@@ -61,7 +61,7 @@ int do_ThreadCreate(int f, int arg) {
 
 void do_ThreadExit() {
 	currentThread->Finish();
-	// currentThread->space =
+	currentThread->space -= 256; // resetting its address space 
 }
 
 #endif  // CHANGED
