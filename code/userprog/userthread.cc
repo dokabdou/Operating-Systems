@@ -14,12 +14,6 @@ typedef struct
 
 
 
-int ThreadCreate(void f(void *arg), void *arg){
-    return 1;
-}
-void ThreadExit(void){
-    return;
-}
 
 int do_ThreadCreate(int f, int arg){
     // should call StartUserThread()

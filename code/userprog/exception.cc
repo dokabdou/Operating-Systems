@@ -135,7 +135,8 @@ void ExceptionHandler(ExceptionType which) {
 				}
 				case SC_ThreadCreate: {			
 					// 		
-					do_ThreadCreate(machine->ReadRegister(4),machine->ReadRegister(5));
+					int t = do_ThreadCreate(machine->ReadRegister(4),machine->ReadRegister(5));
+					//machine->WriteRegister(2, t); // ??
 					break;
 				}
 
