@@ -37,14 +37,15 @@ static void StartUserThread(void* schmurtz) {
 int do_ThreadCreate(int f, int arg) {
 	// should call StartUserThread()
 	// creates a structure to store  and send to StartUserThread()
-	Thread* newThread = new Thread("T1");
-
-	newThread->space = currentThread->space;  // giving the child thread the same space as the parent thread
 
 	if (currentThread->space->AllocateUserStack() == -1) {
 		// There is no space left to add a thread or there is no space left at all
 		return -1;
 	}
+
+	Thread* newThread = new Thread("T1");
+	newThread->space = currentThread->space;  // giving the child thread the same space as the parent thread
+
 	// thread will be in the same address space
 
 	Args* args = (Args*)malloc(sizeof(Args));
