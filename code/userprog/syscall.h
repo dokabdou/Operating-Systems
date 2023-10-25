@@ -140,9 +140,10 @@ void Yield(void);
 #ifdef CHANGED
 void PutChar(char c);
 void PutString(const char* s);
+void PutInt(int n);
 void GetChar(const char* s);
 void GetString(char* s, int n);
-int ThreadCreate(void f(void *arg), void *arg);
+int ThreadCreate(void f(void* arg), void* arg);
 void ThreadExit(void);
 
 #endif  // CHANGED
