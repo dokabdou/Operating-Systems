@@ -31,6 +31,7 @@ static void StartUserThread(void* schmurtz) {
 	machine->WriteRegister(4, arg);
 
 	// MachineRun()
+	machine->DumpMem("threads.svg");
 	machine->Run();
 }
 

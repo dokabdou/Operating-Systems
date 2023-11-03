@@ -2,15 +2,16 @@
 #include "syscall.h"
 
 void f(void* a) {
-	PutChar(*(char*)a);
+	PutString((char*)a);
 	ThreadExit();
 }
 
 int main() {
-	int ret = ThreadCreate(f, "test");
-	
-    ThreadExit();
-	//DEBUG('s', "ThreadCreate = %d\n", ret);
+	char* a = "super ca va ?";
+	int ret = ThreadCreate(f, a);
+	// DEBUG('s', "ThreadCreate = %d\n", ret);  // DEMANDER PQ CA BUG
+	while (1) {
+	}
 	return 0;
 }
 
