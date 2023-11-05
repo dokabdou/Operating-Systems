@@ -120,11 +120,35 @@ void
 Lock::Acquire ()
 {
     ASSERT_MSG(FALSE, "TODO\n");
+    #ifdef CHANGED
+    IntStatus oldLevel = interrupt->SetLevel (IntOff);	// disable interrupts
+
+    while (owner != NULL)
+    {
+        queue->Append ((void *) currentThread);        // so go to sleep
+        currentThread->Sleep ();
+    }
+    owner = currentThread;
+
+    (void) interrupt->SetLevel (oldLevel);	// re-enable interrupts
+    #endif  // CHANGED
 }
 void
 Lock::Release ()
 {
     ASSERT_MSG(FALSE, "TODO\n");
+    #ifdef CHANGED
+    Thread *thread;
+    IntStatus oldLevel = interrupt->SetLevel (IntOff);
+
+    ASSERT_MSG(owner == currentThread);
+
+    thread = (Thread *) queue->Remove ();
+    if (thread != NULL)		// make thread ready, consuming the V immediately
+        scheduler->ReadyToRun (thread);
+    owner = NULL;
+    (void) interrupt->SetLevel (oldLevel);
+    #endif  // CHANGED
 }
 
 Condition::Condition (const char *debugName)
