@@ -110,23 +110,33 @@ Semaphore::V ()
 Lock::Lock (const char *debugName)
 {
     (void) debugName;
-    ASSERT_MSG(FALSE, "TODO\n");
+    #ifdef CHANGED
+    //DEBUG('L',debugName);
+    //ASSERT_MSG(FALSE, "TODO\n");
+    name = debugName;
+    owner = NULL;
+    queue = new List;
+    #endif  // CHANGED
 }
 
 Lock::~Lock ()
 {
+    #ifdef CHANGED
+    delete queue;
+    queue = NULL;
+    owner = NULL;
+    #endif  // CHANGED
 }
 void
 Lock::Acquire ()
 {
-    ASSERT_MSG(FALSE, "TODO\n");
     #ifdef CHANGED
     IntStatus oldLevel = interrupt->SetLevel (IntOff);	// disable interrupts
 
     while (owner != NULL)
     {
         queue->Append ((void *) currentThread);        // so go to sleep
-        currentThread->Sleep ();
+        currentThread->Sleep();
     }
     owner = currentThread;
 
@@ -136,12 +146,11 @@ Lock::Acquire ()
 void
 Lock::Release ()
 {
-    ASSERT_MSG(FALSE, "TODO\n");
     #ifdef CHANGED
     Thread *thread;
     IntStatus oldLevel = interrupt->SetLevel (IntOff);
 
-    ASSERT_MSG(owner == currentThread);
+    ASSERT_MSG(owner == currentThread, "Thread not currentThread\n");
 
     thread = (Thread *) queue->Remove ();
     if (thread != NULL)		// make thread ready, consuming the V immediately

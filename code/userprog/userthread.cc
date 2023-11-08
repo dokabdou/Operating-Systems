@@ -54,14 +54,21 @@ int do_ThreadCreate(int f, int arg) {
 	args->met = currentThread->space->AllocateUserStack();
 
 	newThread->Start(StartUserThread, args);
+	currentThread->space->ThreadCounterInc();
 
 	// check if the thread was correctly created, return -1 if not
 	return 0;
 }
 
 void do_ThreadExit() {
+	printf("\nThread stopped\n");
 	currentThread->Finish();
 	currentThread->space -= 256;  // resetting its address space
+	int tc = currentThread->space->ThreadCounterDec();
+	
+	if(tc == 0){
+		interrupt->Powerdown();
+	}
 }
 
 #endif  // CHANGED

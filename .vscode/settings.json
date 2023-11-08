@@ -8,6 +8,9 @@
     ],
     "files.associations": {
         "syscall.h": "c",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "compare": "cpp",
+        "type_traits": "cpp",
+        "random": "cpp"
     }
 }

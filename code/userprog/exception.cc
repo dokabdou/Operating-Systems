@@ -140,11 +140,12 @@ void ExceptionHandler(ExceptionType which) {
 				}
 
 				case SC_ThreadExit: {
+					//  create a thread counter
 					do_ThreadExit();
-					while (1) {
+					/*while (1) {
 						currentThread->Yield();
 						// forces Scheduler to check for waiting threads and yields to waiting processes
-					}
+					}*/
 					break;
 				}
 

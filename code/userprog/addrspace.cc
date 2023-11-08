@@ -21,6 +21,10 @@
 #include "noff.h"
 #include "syscall.h"
 #include "system.h"
+#ifdef CHANGED
+#include "synch.h"
+#endif  // CHANGED
+
 
 //----------------------------------------------------------------------
 // SwapHeader
@@ -53,13 +57,27 @@ List AddrSpaceList;
 int AddrSpace::AllocateUserStack() {
 	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d\n", UserStacksAreaSize, ThreadStacksAreaSize);
 	// (UserStacksAreaSize - 16-256) * numThreads
-	// need to add semaphores and locks
+	// need to add semaphores or locks
 
-	int numThreads = 1;  // TODO: thread counter, for now only the main
-	int spaceThreads = numThreads * 256;
+	int spaceThreads = threadCounter * 256;
 
 	return UserStacksAreaSize - spaceThreads < 0 ? -1 : UserStacksAreaSize - spaceThreads;
 }
+
+int AddrSpace::ThreadCounterInc(){
+	lockThreadCounter->Acquire();
+	threadCounter++;
+	lockThreadCounter->Release();
+	return threadCounter;
+}
+
+int AddrSpace::ThreadCounterDec(){
+	lockThreadCounter->Acquire();
+	threadCounter--;
+	lockThreadCounter->Release();
+	return threadCounter;
+}
+
 
 #endif  // CHANGED
 
@@ -80,6 +98,10 @@ int AddrSpace::AllocateUserStack() {
 
 AddrSpace::AddrSpace(OpenFile* executable) {
 	unsigned int i, size;
+
+	#ifdef CHANGED
+	threadCounter = 1;
+	#endif  // CHANGED
 
 	executable->ReadAt(&noffH, sizeof(noffH), 0);
 	if ((noffH.noffMagic != NOFFMAGIC) && (WordToHost(noffH.noffMagic) == NOFFMAGIC))
@@ -128,6 +150,11 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 	pageTable[0].valid = FALSE;  // Catch NULL dereference
 
 	AddrSpaceList.Append(this);
+
+	#ifdef CHANGED
+	lockThreadCounter = new Lock("Lock Thread Counter");
+
+	#endif  // CHANGED
 }
 
 //----------------------------------------------------------------------

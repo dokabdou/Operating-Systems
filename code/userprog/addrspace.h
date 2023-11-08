@@ -20,6 +20,10 @@
 #include "list.h"
 
 #ifdef CHANGED
+class Lock;
+#endif  // CHANGED
+
+#ifdef CHANGED
 #define ThreadStacksAreaSize 256
 #endif  // CHANGED
 #define UserStacksAreaSize		1024	// increase this as necessary!
@@ -30,6 +34,8 @@ class AddrSpace:public dontcopythis
 
     #ifdef CHANGED
     int AllocateUserStack(); //  returns top of stack
+    int ThreadCounterInc();
+    int ThreadCounterDec();
     #endif  // CHANGED
     AddrSpace (OpenFile * executable); // Create an address space,
     // initializing it with the program
@@ -53,6 +59,10 @@ class AddrSpace:public dontcopythis
 
     TranslationEntry * pageTable; // Page table
     unsigned int numPages;      // Number of pages in the page table
+    #ifdef CHANGED
+    Lock* lockThreadCounter;   //
+    int threadCounter;
+    #endif  // CHANGED
 };
 
 extern List AddrspaceList;

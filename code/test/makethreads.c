@@ -13,8 +13,9 @@ int main() {
 	//int a = "s";
 	int ret = ThreadCreate(f, a);
 	// DEBUG('s', "ThreadCreate = %d\n", ret);  // DEMANDER PQ CA BUG
-	while (1) {
-	}
+	/*while (1) {
+	}*/
+	ThreadExit();
 	return 0;
 }
 
