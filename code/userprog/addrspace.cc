@@ -59,7 +59,9 @@ int AddrSpace::AllocateUserStack() {
 	// (UserStacksAreaSize - 16-256) * numThreads
 	// need to add semaphores or locks
 
+	lockThreadCounter->Acquire();
 	int spaceThreads = threadCounter * 256;
+	lockThreadCounter->Release();
 
 	return UserStacksAreaSize - spaceThreads < 0 ? -1 : UserStacksAreaSize - spaceThreads;
 }
@@ -101,6 +103,7 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 
 	#ifdef CHANGED
 	threadCounter = 1;
+	lockThreadCounter = new Lock("Lock Thread Counter");
 	#endif  // CHANGED
 
 	executable->ReadAt(&noffH, sizeof(noffH), 0);
@@ -151,10 +154,6 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 
 	AddrSpaceList.Append(this);
 
-	#ifdef CHANGED
-	lockThreadCounter = new Lock("Lock Thread Counter");
-
-	#endif  // CHANGED
 }
 
 //----------------------------------------------------------------------
