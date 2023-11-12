@@ -57,10 +57,10 @@ int AddrSpace::AllocateUserStack() {
 	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d\n", UserStacksAreaSize, ThreadStacksAreaSize);
 
 	lockThreadCounter->Acquire();
-	int spaceThreads = ((numPages*PageSize)-16)-(threadCounter * 256);
+	int spaceThreads = ((numPages * PageSize) - 16) - (threadCounter * 256);
 
-	//AddrSpaceList.length();
-	if(spaceThreads < 0 || threadCounter < (UserStacksAreaSize/256)){
+	// AddrSpaceList.length();
+	if (spaceThreads < 0 || threadCounter > (UserStacksAreaSize / 256)) {
 		// max number of threads is 4 = 1024/256
 		lockThreadCounter->Release();
 		return -1;
