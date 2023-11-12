@@ -54,17 +54,20 @@ List AddrSpaceList;
 #ifdef CHANGED
 
 int AddrSpace::AllocateUserStack() {
-	// (UserStacksAreaSize - 16-256) * numThreads
-	// need to add semaphores or locks
+	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d\n", UserStacksAreaSize, ThreadStacksAreaSize);
 
 	lockThreadCounter->Acquire();
-	int spaceThreads = threadCounter * 256;
-	lockThreadCounter->Release();
+	int spaceThreads = ((numPages*PageSize)-16)-(threadCounter * 256);
 
-	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d, UserStacksAreaSize - spaceThreads: %d\n", UserStacksAreaSize,
-	      ThreadStacksAreaSize, UserStacksAreaSize - spaceThreads);
-
-	return UserStacksAreaSize - spaceThreads <= 0 ? -1 : UserStacksAreaSize - spaceThreads;
+	//AddrSpaceList.length();
+	if(spaceThreads < 0 || threadCounter < (UserStacksAreaSize/256)){
+		// max number of threads is 4 = 1024/256
+		lockThreadCounter->Release();
+		return -1;
+	} else {
+		lockThreadCounter->Release();
+		return UserStacksAreaSize - spaceThreads;
+	}
 }
 
 int AddrSpace::ThreadCounterInc() {
