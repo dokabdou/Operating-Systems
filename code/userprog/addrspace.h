@@ -34,6 +34,8 @@ class AddrSpace:public dontcopythis
 
     #ifdef CHANGED
     int AllocateUserStack(); //  returns top of stack
+    int AllocateUserStack(int); // allocate space to the free slot
+    int IdFreeBitMap(); // returns the id of the next free slot
     int ThreadCounterInc();
     int ThreadCounterDec();
     #endif  // CHANGED
@@ -62,6 +64,7 @@ class AddrSpace:public dontcopythis
     #ifdef CHANGED
     Lock* lockThreadCounter;   //
     int threadCounter;
+    BitMap* ThreadBitMap; 
     #endif  // CHANGED
 };
 

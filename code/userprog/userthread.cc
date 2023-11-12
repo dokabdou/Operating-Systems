@@ -27,6 +27,16 @@ static void StartUserThread(void* schmurtz) {
 
 	machine->WriteRegister(PCReg, f);
 	machine->WriteRegister(NextPCReg, machine->ReadRegister(PCReg) + 4);
+
+	/*
+	// attempt to implement the bitmap in order ot properly schedule the different threads
+	met = currentThread->space->AllocateUserStack(currentThread->space->ThreadBitMap());
+
+	// like in do_ThreadCreate, we check if this space is valid
+	if(met == -1){
+
+	}
+	*/
 	machine->WriteRegister(StackReg, met);
 	machine->WriteRegister(4, arg);
 
