@@ -11,6 +11,7 @@
             "program": "${workspaceFolder}/code/userprog/nachos",
             "args": [
                 "-d",
+                "t",
                 "-rs",
                 "1234",
                 "-x",

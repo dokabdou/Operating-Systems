@@ -25,7 +25,6 @@
 #include "synch.h"
 #endif  // CHANGED
 
-
 //----------------------------------------------------------------------
 // SwapHeader
 //      Do little endian to big endian conversion on the bytes in the
@@ -55,7 +54,6 @@ List AddrSpaceList;
 #ifdef CHANGED
 
 int AddrSpace::AllocateUserStack() {
-	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d\n", UserStacksAreaSize, ThreadStacksAreaSize);
 	// (UserStacksAreaSize - 16-256) * numThreads
 	// need to add semaphores or locks
 
@@ -63,23 +61,25 @@ int AddrSpace::AllocateUserStack() {
 	int spaceThreads = threadCounter * 256;
 	lockThreadCounter->Release();
 
-	return UserStacksAreaSize - spaceThreads < 0 ? -1 : UserStacksAreaSize - spaceThreads;
+	DEBUG('x', "AllocateUserStack() : UserStacksAreaSize: %d, ThreadStacksAreaSize: %d, UserStacksAreaSize - spaceThreads: %d\n", UserStacksAreaSize,
+	      ThreadStacksAreaSize, UserStacksAreaSize - spaceThreads);
+
+	return UserStacksAreaSize - spaceThreads <= 0 ? -1 : UserStacksAreaSize - spaceThreads;
 }
 
-int AddrSpace::ThreadCounterInc(){
+int AddrSpace::ThreadCounterInc() {
 	lockThreadCounter->Acquire();
 	threadCounter++;
 	lockThreadCounter->Release();
 	return threadCounter;
 }
 
-int AddrSpace::ThreadCounterDec(){
+int AddrSpace::ThreadCounterDec() {
 	lockThreadCounter->Acquire();
 	threadCounter--;
 	lockThreadCounter->Release();
 	return threadCounter;
 }
-
 
 #endif  // CHANGED
 
@@ -101,10 +101,10 @@ int AddrSpace::ThreadCounterDec(){
 AddrSpace::AddrSpace(OpenFile* executable) {
 	unsigned int i, size;
 
-	#ifdef CHANGED
+#ifdef CHANGED
 	threadCounter = 1;
 	lockThreadCounter = new Lock("Lock Thread Counter");
-	#endif  // CHANGED
+#endif  // CHANGED
 
 	executable->ReadAt(&noffH, sizeof(noffH), 0);
 	if ((noffH.noffMagic != NOFFMAGIC) && (WordToHost(noffH.noffMagic) == NOFFMAGIC))
@@ -153,7 +153,6 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 	pageTable[0].valid = FALSE;  // Catch NULL dereference
 
 	AddrSpaceList.Append(this);
-
 }
 
 //----------------------------------------------------------------------

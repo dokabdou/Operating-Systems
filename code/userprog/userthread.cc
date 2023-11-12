@@ -62,13 +62,12 @@ int do_ThreadCreate(int f, int arg) {
 
 void do_ThreadExit() {
 	printf("\nThread stopped\n");
-	currentThread->Finish();
-	currentThread->space -= 256;  // resetting its address space
 	int tc = currentThread->space->ThreadCounterDec();
-	
-	if(tc == 0){
+
+	if (tc == 0) {
 		interrupt->Powerdown();
 	}
+	currentThread->Finish();
 }
 
 #endif  // CHANGED
