@@ -66,7 +66,7 @@ int AddrSpace::AllocateUserStack() {
 		return -1;
 	} else {
 		lockThreadCounter->Release();
-		return UserStacksAreaSize - spaceThreads;
+		return spaceThreads;
 	}
 }
 

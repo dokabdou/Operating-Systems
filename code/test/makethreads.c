@@ -12,11 +12,12 @@ void f(void* c) {
 }
 
 int main() {
-	char a = 'a', b = 'b', c = 'c', d = 'd';
+	char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e';
 	ThreadCreate(f, &a);
 	ThreadCreate(f, &b);
 	ThreadCreate(f, &c);
-	// ThreadCreate(f, &d);
+	ThreadCreate(f, &d);
+	ThreadCreate(f, &e);  // strange behavior: this thread is created but never executed probably
 	ThreadExit();
 	return 0;
 }

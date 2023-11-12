@@ -44,7 +44,11 @@ int do_ThreadCreate(int f, int arg) {
 		return -1;
 	}
 
-	Thread* newThread = new Thread("T1");
+	char* name = new char[64];
+	int tc = currentThread->space->ThreadCounterInc();
+	sprintf(name, "Thread %d", tc);
+
+	Thread* newThread = new Thread(name);
 	newThread->space = currentThread->space;  // giving the child thread the same space as the parent thread
 	// thread will be in the same address space
 
@@ -54,14 +58,14 @@ int do_ThreadCreate(int f, int arg) {
 	args->met = currentThread->space->AllocateUserStack();
 
 	newThread->Start(StartUserThread, args);
-	currentThread->space->ThreadCounterInc();
 
 	// check if the thread was correctly created, return -1 if not
 	return 0;
 }
 
 void do_ThreadExit() {
-	printf("\nThread stopped\n");
+	const char* name = currentThread->getName();
+	DEBUG('e', "\n%s stopped\n", name);
 	int tc = currentThread->space->ThreadCounterDec();
 
 	if (tc == 0) {
