@@ -11,6 +11,12 @@ void f(void* c) {
 	ThreadExit();
 }
 
+/**
+ * ./nachos -rs 45 -x ../test/makethreads
+ * ./nachos -rs 1234 -x ../test/makethreads
+ * ./nachos -rs .... -x ../test/makethreads
+ * il faut utilisé -rs pour forcer l’ordonnancement préemptif des threads
+ */
 int main() {
 	char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e';
 	ThreadCreate(f, &a);
