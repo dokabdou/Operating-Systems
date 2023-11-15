@@ -85,9 +85,9 @@ int AddrSpace::AllocateUserStack(int BMapId) {
 	}
 }
 
-int AddrSpace::IdFreeBitMap(){
-	return ThreadBitMap->find();
-} 
+// int AddrSpace::IdFreeBitMap() {
+// 	return ThreadBitMap->find();
+// }
 
 int AddrSpace::ThreadCounterInc() {
 	lockThreadCounter->Acquire();
@@ -126,7 +126,7 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 #ifdef CHANGED
 	threadCounter = 1;
 	lockThreadCounter = new Lock("Lock Thread Counter");
-	ThreadBitMap = new BitMap(UserStacksAreaSize / 256); // 4 bits for the bitmap
+	// ThreadBitMap = new BitMap(UserStacksAreaSize / 256); // 4 bits for the bitmap
 #endif  // CHANGED
 
 	executable->ReadAt(&noffH, sizeof(noffH), 0);
@@ -162,6 +162,7 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 	}
 
 	// then, copy in the code and data segments into memory
+	// TODO modify readAt without using machine->mainMemory with virtual addresses&
 	if (noffH.code.size > 0) {
 		DEBUG('a', "Initializing code segment, at 0x%x, size 0x%x\n", noffH.code.virtualAddr, noffH.code.size);
 		executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]), noffH.code.size, noffH.code.inFileAddr);
