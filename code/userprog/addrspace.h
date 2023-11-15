@@ -31,9 +31,9 @@ class Lock;
 class AddrSpace : public dontcopythis {
    public:
 #ifdef CHANGED
-	int AllocateUserStack();     //  returns top of stack
-	int AllocateUserStack(int);  // allocate space to the free slot
-	int IdFreeBitMap();          // returns the id of the next free slot
+	int AllocateUserStack();  //  returns top of stack
+	// int AllocateUserStack(int);  // allocate space to the free slot
+	// int IdFreeBitMap();          // returns the id of the next free slot
 	int ThreadCounterInc();
 	int ThreadCounterDec();
 #endif                                // CHANGED

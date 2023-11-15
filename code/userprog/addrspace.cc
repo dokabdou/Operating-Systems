@@ -70,20 +70,20 @@ int AddrSpace::AllocateUserStack() {
 	}
 }
 
-int AddrSpace::AllocateUserStack(int BMapId) {
-	lockThreadCounter->Acquire();
-	int spaceThreads = ((numPages * PageSize) - 16) - (BMapId * 256);
+// int AddrSpace::AllocateUserStack(int BMapId) {
+// 	lockThreadCounter->Acquire();
+// 	int spaceThreads = ((numPages * PageSize) - 16) - (BMapId * 256);
 
-	// AddrSpaceList.length();
-	if (spaceThreads < 0 || BMapId > (UserStacksAreaSize / 256)) {
-		// max number of threads is 4 = 1024/256
-		lockThreadCounter->Release();
-		return -1;
-	} else {
-		lockThreadCounter->Release();
-		return spaceThreads;
-	}
-}
+// 	// AddrSpaceList.length();
+// 	if (spaceThreads < 0 || BMapId > (UserStacksAreaSize / 256)) {
+// 		// max number of threads is 4 = 1024/256
+// 		lockThreadCounter->Release();
+// 		return -1;
+// 	} else {
+// 		lockThreadCounter->Release();
+// 		return spaceThreads;
+// 	}
+// }
 
 // int AddrSpace::IdFreeBitMap() {
 // 	return ThreadBitMap->find();
