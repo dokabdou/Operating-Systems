@@ -49,7 +49,9 @@ int do_ThreadCreate(int f, int arg) {
 	// should call StartUserThread()
 	// creates a structure to store  and send to StartUserThread()
 
-	if (currentThread->space->AllocateUserStack() == -1) {
+	int space_allocation = currentThread->space->AllocateUserStack();
+
+	if (space_allocation == -1) {
 		// There is no space left to add a thread or there is no space left at all
 		return -1;
 	}
@@ -65,7 +67,7 @@ int do_ThreadCreate(int f, int arg) {
 	Args* args = (Args*)malloc(sizeof(Args));
 	args->f = f;
 	args->arg = arg;
-	args->met = currentThread->space->AllocateUserStack();
+	args->met = space_allocation;
 
 	newThread->Start(StartUserThread, args);
 
