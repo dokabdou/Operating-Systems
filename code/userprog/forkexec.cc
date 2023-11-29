@@ -9,26 +9,34 @@
 #include "system.h"
 
 
-void ForkExec(char *filename) {
+void do_ForkExec(char *filename) {
+    // parent = the process that called ForkExec
     OpenFile *executable = fileSystem->Open(filename);
     AddrSpace *space;
 
     if (executable == NULL) {
-        printf("Unable to open file %s\n", filename);
+        SetColor(stdout, ColorRed);
+		SetBold(stdout);
+		printf("Unable to open file %s\n", filename);
+		ClearColor(stdout);
         return;
     }
     space = new AddrSpace(executable);
-    currentThread->space = space;
+    Thread* newThread = new Thread("Thread");
+    newThread->space = space;
 
+    newThread->Start(StartUserProc, space);
+	
     delete executable;  // close file
+}
 
-    space->InitRegisters();  // set the initial register values
-    space->RestoreState();   // load page table register
 
-    machine->Run();  // jump to the user progam
-    ASSERT(false);  // machine->Run never returns;
-                    // the address space exits
-                    // by doing the syscall "exit"
+static void StartUserProc(void* space) {
+    ((AddrSpace*)space)->InitRegisters();  // set the initial register values
+    ((AddrSpace*)space)->RestoreState();   // load page table register
+
+    machine->Run();  // jump to the user program
+
 }
 
 #endif // CHANGED

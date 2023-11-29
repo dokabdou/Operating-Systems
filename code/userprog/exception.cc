@@ -26,6 +26,7 @@
 #include "system.h"
 #ifdef CHANGED
 #include "userthread.h"
+#include "forkexec.h"
 #endif  // CHANGED
 
 //----------------------------------------------------------------------
@@ -134,6 +135,7 @@ void ExceptionHandler(ExceptionType which) {
 					break;
 				}
 				case SC_ThreadCreate: {
+					DEBUG('s', "ThreadCreate called.\n");
 					int t = do_ThreadCreate(machine->ReadRegister(4), machine->ReadRegister(5));
 					// machine->WriteRegister(2, t); // ??
 					break;
@@ -150,12 +152,10 @@ void ExceptionHandler(ExceptionType which) {
 				}
 
 				case SC_ForkExec: {
+					DEBUG('s', "ForkExec called.\n");
 					int to = machine->ReadRegister(4);
-					char* buffer = new char[MAX_STRING_SIZE];
-					//consoledriver->copyStringFromMachine(to, buffer, MAX_STRING_SIZE);
-					//int t = do_ForkExec(buffer);
+					int t = do_ForkExec((char*)to);
 					//machine->WriteRegister(2, t);
-					delete[] buffer;
 					break;
 				}
 
