@@ -174,7 +174,9 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 	// first, set up the translation
 	pageTable = new TranslationEntry[numPages];
 	for (i = 0; i < numPages; i++) {
-		pageTable[i].physicalPage = i + 1;  // for now, phys page # = virtual page #
+#ifdef CHANGED
+		pageTable[i].physicalPage = pageprovider->GetEmptyPage();
+#endif  // CHANGED
 		pageTable[i].valid = TRUE;
 		pageTable[i].use = FALSE;
 		pageTable[i].dirty = FALSE;

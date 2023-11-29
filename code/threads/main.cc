@@ -116,12 +116,10 @@ int main(int argc, char** argv) {
 			ASSERT_MSG(argc > 1, "-x needs a program name\n");
 #ifdef CHANGED
 			consoledriver = new ConsoleDriver(NULL, NULL);
+			pageprovider = new PageProvider(NumPhysPages);
 #endif  // CHANGED
 			StartProcess(*(argv + 1));
 			argCount = 2;
-#ifdef CHANGED
-			delete consoledriver;
-#endif                                      // CHANGED
 		} else if (!strcmp(*argv, "-c")) {  // test the console
 			if (argc == 1)
 				ConsoleTest(NULL, NULL);

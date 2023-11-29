@@ -3,9 +3,9 @@
 #include "pageprovider.h"
 #include "system.h"
 
-PageProvider::PageProvider(int numPages) {
-	this->numPage = numPage;
-	pageMap = new BitMap(numPages);
+PageProvider::PageProvider(int numPhysPages) {
+	this->numPage = numPhysPages;
+	pageMap = new BitMap(this->numPage);
 	lockPageMap = new Lock("lockPageMap");
 }
 
@@ -16,15 +16,17 @@ PageProvider::~PageProvider() {
 
 int PageProvider::GetEmptyPage() {
 	lockPageMap->Acquire();
-	int numPage = pageMap->Find();
+	int pageAvailable = pageMap->Find();
 	lockPageMap->Release();
-	memset(machine->mainMemory + numPage * machine->currentPageTableSize, 0, machine->currentPageTableSize);
-	return numPage;
+	if (pageAvailable == -1)
+		return -1;
+	memset(machine->mainMemory + pageAvailable * machine->currentPageTableSize, 0, machine->currentPageTableSize);
+	return pageAvailable;
 }
 
-void PageProvider::ReleasePage(int numPage) {
+void PageProvider::ReleasePage(int pageToRelease) {
 	lockPageMap->Acquire();
-	pageMap->Clear(numPage);
+	pageMap->Clear(pageToRelease);
 	lockPageMap->Release();
 }
 

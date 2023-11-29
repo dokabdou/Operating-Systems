@@ -143,8 +143,8 @@ void ExceptionHandler(ExceptionType which) {
 					//  create a thread counter
 					do_ThreadExit();
 					/*while (1) {
-						currentThread->Yield();
-						// forces Scheduler to check for waiting threads and yields to waiting processes
+					    currentThread->Yield();
+					    // forces Scheduler to check for waiting threads and yields to waiting processes
 					}*/
 					break;
 				}

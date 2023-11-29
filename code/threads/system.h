@@ -52,7 +52,9 @@ extern PostOffice* postOffice;
 #ifdef CHANGED
 #ifdef USER_PROGRAM
 #include "consoledriver.h"
+#include "pageprovider.h"
 extern ConsoleDriver* consoledriver;
+extern PageProvider* pageprovider;
 #define MAX_STRING_SIZE 2048
 #endif
 #endif  // CHANGED
