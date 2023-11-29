@@ -21,6 +21,7 @@ int PageProvider::GetEmptyPage() {
 	lockPageMap->Release();
 	if (pageAvailable == -1)
 		return -1;
+	pageAvailable = (numPage - 1) - pageAvailable;
 	memset(machine->mainMemory + pageAvailable * machine->currentPageTableSize, 0, machine->currentPageTableSize);
 	return pageAvailable;
 }
