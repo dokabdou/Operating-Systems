@@ -6,6 +6,7 @@
 
 PageProvider::PageProvider() {
 	this->numPage = NumPhysPages;
+	this->bookedPage = 0;
 	pageMap = new BitMap(this->numPage);
 	lockPageMap = new Lock("lockPageMap");
 }
@@ -18,12 +19,24 @@ PageProvider::~PageProvider() {
 int PageProvider::GetEmptyPage() {
 	lockPageMap->Acquire();
 	int pageAvailable = pageMap->Find();
+	bookedPage--;
 	lockPageMap->Release();
 	if (pageAvailable == -1)
-		return -1;
+		return -1;  // shouldn't happen because every process has to book pages before acquiring them
 	pageAvailable = (numPage - 1) - pageAvailable;
 	memset(machine->mainMemory + pageAvailable * machine->currentPageTableSize, 0, machine->currentPageTableSize);
 	return pageAvailable;
+}
+
+bool PageProvider::bookPages(int howManyPages) {
+	lockPageMap->Acquire();
+	if (this->NumAvailPage() >= howManyPages + bookedPage) {
+		bookedPage += howManyPages;
+		lockPageMap->Release();
+		return true;
+	}
+	lockPageMap->Release();
+	return false;
 }
 
 void PageProvider::ReleasePage(int pageToRelease) {

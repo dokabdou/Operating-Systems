@@ -171,16 +171,15 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 		throw std::bad_alloc();
 
 	DEBUG('a', "Initializing address space, num pages %d, total size 0x%x\n", numPages, size);
+	if (!pageprovider->bookPages(numPages))
+		throw NoMoreMemory();
 	// first, set up the translation
 	pageTable = new TranslationEntry[numPages];
 	for (i = 0; i < numPages; i++) {
 #ifdef CHANGED
 		int pageAvailable = pageprovider->GetEmptyPage();
 		if (pageAvailable == -1) {
-			for (unsigned j = 0; j < i; j++) {
-				pageprovider->ReleasePage(j);
-			}
-			throw NoMoreMemory();
+			ASSERT_MSG(false, "No more memory available\n");  // should not happen because we've booked before
 		}
 		pageTable[i].physicalPage = pageAvailable;
 #endif  // CHANGED

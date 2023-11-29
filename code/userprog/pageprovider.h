@@ -10,13 +10,15 @@ class PageProvider : dontcopythis {
 	PageProvider();
 	~PageProvider();
 	int GetEmptyPage();
-	void ReleasePage(int numPage);
+	void ReleasePage(int howManyPage);
 	int NumAvailPage();
+	bool bookPages(int howManyPage);
 
    private:
 	BitMap* pageMap;
 	Lock* lockPageMap;
 	int numPage;
+	int bookedPage;
 };
 
 class NoMoreMemory {};
