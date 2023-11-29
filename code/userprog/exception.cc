@@ -149,6 +149,16 @@ void ExceptionHandler(ExceptionType which) {
 					break;
 				}
 
+				case SC_ForkExec: {
+					int to = machine->ReadRegister(4);
+					char* buffer = new char[MAX_STRING_SIZE];
+					//consoledriver->copyStringFromMachine(to, buffer, MAX_STRING_SIZE);
+					//int t = do_ForkExec(buffer);
+					//machine->WriteRegister(2, t);
+					delete[] buffer;
+					break;
+				}
+
 #endif  // CHANGED
 				default: {
 					ASSERT_MSG(FALSE, "Unimplemented system call %d\n", type);
