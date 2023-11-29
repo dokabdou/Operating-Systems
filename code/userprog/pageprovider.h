@@ -7,7 +7,7 @@
 
 class PageProvider : dontcopythis {
    public:
-	PageProvider(int numPages);
+	PageProvider();
 	~PageProvider();
 	int GetEmptyPage();
 	void ReleasePage(int numPage);
@@ -18,6 +18,8 @@ class PageProvider : dontcopythis {
 	Lock* lockPageMap;
 	int numPage;
 };
+
+class NoMoreMemory {};
 
 #endif
 #endif

@@ -175,7 +175,14 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 	pageTable = new TranslationEntry[numPages];
 	for (i = 0; i < numPages; i++) {
 #ifdef CHANGED
-		pageTable[i].physicalPage = pageprovider->GetEmptyPage();
+		int pageAvailable = pageprovider->GetEmptyPage();
+		if (pageAvailable == -1) {
+			for (unsigned j = 0; j < i; j++) {
+				pageprovider->ReleasePage(j);
+			}
+			throw NoMoreMemory();
+		}
+		pageTable[i].physicalPage = pageAvailable;
 #endif  // CHANGED
 		pageTable[i].valid = TRUE;
 		pageTable[i].use = FALSE;
@@ -209,6 +216,9 @@ AddrSpace::AddrSpace(OpenFile* executable) {
 //----------------------------------------------------------------------
 
 AddrSpace::~AddrSpace() {
+	for (unsigned i = 0; i < numPages; i++) {
+		pageprovider->ReleasePage(pageTable[i].physicalPage);
+	}
 	delete[] pageTable;
 	pageTable = NULL;
 

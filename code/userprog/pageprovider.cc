@@ -1,10 +1,11 @@
 #ifdef CHANGED
 
 #include "pageprovider.h"
+#include "machine.h"
 #include "system.h"
 
-PageProvider::PageProvider(int numPhysPages) {
-	this->numPage = numPhysPages;
+PageProvider::PageProvider() {
+	this->numPage = NumPhysPages;
 	pageMap = new BitMap(this->numPage);
 	lockPageMap = new Lock("lockPageMap");
 }

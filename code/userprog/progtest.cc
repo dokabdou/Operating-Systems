@@ -32,7 +32,12 @@ void StartProcess(char* filename) {
 		ClearColor(stdout);
 		return;
 	}
-	space = new AddrSpace(executable);
+	try {
+		space = new AddrSpace(executable);
+	} catch (const NoMoreMemory& e) {
+		ASSERT("Not enough memory");
+	}
+
 	currentThread->space = space;
 
 	delete executable;  // close file
