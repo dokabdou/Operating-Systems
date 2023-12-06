@@ -19,6 +19,7 @@ void print(char c, int n) {
 // caracteres dans la console
 int main() {
 	print('a', 30);
+	//while(1);
 	return 0;
 }
 #endif  // CHANGED

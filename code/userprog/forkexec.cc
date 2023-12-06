@@ -9,34 +9,58 @@
 #include "system.h"
 
 
-void do_ForkExec(char *filename) {
+static void StartUserProc(void* space) {
+    currentThread->space = (AddrSpace*)space;
+    currentThread->space->InitRegisters();  // set the initial register values
+    currentThread->space->RestoreState();   // load page table register
+
+    machine->Run();  // jump to the user program
+
+}
+
+int do_ForkExec(const char *s) {
     // parent = the process that called ForkExec
-    OpenFile *executable = fileSystem->Open(filename);
+    OpenFile *executable = fileSystem->Open(s);
     AddrSpace *space;
 
     if (executable == NULL) {
         SetColor(stdout, ColorRed);
 		SetBold(stdout);
-		printf("Unable to open file %s\n", filename);
+		printf("Unable to open file %s\n", s);
 		ClearColor(stdout);
-        return;
+        return -1;
     }
-    space = new AddrSpace(executable);
+
+    try {
+		space = new AddrSpace(executable);
+	} catch (const NoMoreMemory& e) {
+        SetColor(stdout, ColorRed);
+        SetBold(stdout);
+        printf("Not enough memory\n");
+        ClearColor(stdout);
+        return -1;
+	}
     Thread* newThread = new Thread("Thread");
+
+    if(newThread == NULL) {
+        SetColor(stdout, ColorRed);
+        SetBold(stdout);
+        printf("Unable to create thread\n");
+        ClearColor(stdout);
+        return -1;
+    }
+
     newThread->space = space;
+
+    machine->ProcessCounterInc();
 
     newThread->Start(StartUserProc, space);
 	
     delete executable;  // close file
+    return 0;
 }
 
 
-static void StartUserProc(void* space) {
-    ((AddrSpace*)space)->InitRegisters();  // set the initial register values
-    ((AddrSpace*)space)->RestoreState();   // load page table register
 
-    machine->Run();  // jump to the user program
-
-}
 
 #endif // CHANGED

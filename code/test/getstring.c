@@ -14,6 +14,7 @@ int main() {
 	GetString(toTest, 10);
 	PutString(toTest);
 	Halt();
-	return 0;
+	while(1);
+	//return 0;
 }
 #endif  // CHANGED

@@ -67,6 +67,15 @@ PutChar:
         j        $31
         .end   PutChar
 
+        .globl ForkExec
+        .ent   ForkExec
+ForkExec:
+        addiu $2,$0,SC_ForkExec
+        syscall
+        j        $31
+        .end   ForkExec
+
+
         .globl ThreadCreate
         .ent   ThreadCreate
 ThreadCreate:

@@ -80,6 +80,10 @@ enum ExceptionType {
 //	    registers to act on
 //	    any immediate operand value
 
+#ifdef CHANGED
+class Lock;
+#endif  // CHANGED
+
 class Instruction {
    public:
 	void Decode(void);  // decode the binary representation of the instruction
@@ -113,6 +117,10 @@ class Machine : public dontcopythis {
    public:
 	Machine(bool debug);  // Initialize the simulation of the hardware
 	                      // for running user programs
+	#ifdef CHANGED
+	int ProcessCounterInc();
+	int ProcessCounterDec();
+	#endif  // CHANGED
 	~Machine();           // De-allocate the data structures
 
 	// Routines callable by the Nachos kernel
@@ -207,7 +215,11 @@ class Machine : public dontcopythis {
 	bool singleStep;   // drop back into the debugger after each
 	                   // simulated instruction
 	int runUntilTime;  // drop back into the debugger when simulated
-	                   // time reaches this value
+	                   // time reaches this value*
+	#ifdef CHANGED
+	int processCounter;
+	Lock* lockProcessCounter;  //
+	#endif  // CHANGED
 };
 
 extern void ExceptionHandler(ExceptionType which);

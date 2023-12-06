@@ -10,6 +10,7 @@
 int main() {
 	int ret = GetInt();
 	PutInt(ret);
-	return 0;
+	while(1);
+	//return 0;
 }
 #endif  // CHANGED

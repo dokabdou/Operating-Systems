@@ -71,10 +71,32 @@ Machine::Machine(bool debug)
     currentPageTable = NULL;
     currentPageTableSize = 0;
 
+    #ifdef CHANGED
+    // Initialize the process counter
+    processCounter = 1;
+    lockProcessCounter =  new Lock("Lock Thread Counter");
+    #endif // CHANGED
+
     singleStep = debug;
     runUntilTime = 0;
     CheckEndian();
 }
+
+#ifdef CHANGED
+int Machine::ProcessCounterInc() {
+	lockProcessCounter->Acquire();
+	processCounter++;
+	lockProcessCounter->Release();
+	return processCounter;
+}
+
+int Machine::ProcessCounterDec() {
+	lockProcessCounter->Acquire();
+	processCounter--;
+	lockProcessCounter->Release();
+	return processCounter;
+}
+#endif // CHANGED
 
 //----------------------------------------------------------------------
 // Machine::~Machine

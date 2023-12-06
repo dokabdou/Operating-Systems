@@ -97,7 +97,15 @@ void ExceptionHandler(ExceptionType which) {
 					DEBUG('s', "Exit called.\n");
 					int status = machine->ReadRegister(2);
 					DEBUG('s', "Exit status: %d\n", status);
-					interrupt->Powerdown();
+					int pc = machine->ProcessCounterDec();
+					if (pc == 1){
+						DEBUG('s', "No more processes are running, shutting down.\n");
+						interrupt->Powerdown();
+					} else {
+						// Free process resources
+						DEBUG('s', "Freeing process resources.\n");
+						 // TODO: free process resources
+					}
 					break;
 				}
 				case SC_GetChar: {
@@ -137,7 +145,7 @@ void ExceptionHandler(ExceptionType which) {
 				case SC_ThreadCreate: {
 					DEBUG('s', "ThreadCreate called.\n");
 					int t = do_ThreadCreate(machine->ReadRegister(4), machine->ReadRegister(5));
-					// machine->WriteRegister(2, t); // ??
+					machine->WriteRegister(2, t); // ??
 					break;
 				}
 
@@ -153,9 +161,13 @@ void ExceptionHandler(ExceptionType which) {
 
 				case SC_ForkExec: {
 					DEBUG('s', "ForkExec called.\n");
-					int to = machine->ReadRegister(4);
-					int t = do_ForkExec((char*)to);
-					//machine->WriteRegister(2, t);
+					int from = machine->ReadRegister(4);
+					char* buffer = new char[MAX_STRING_SIZE];
+					consoledriver->copyStringFromMachine(from, buffer, MAX_STRING_SIZE);
+					
+					int t = do_ForkExec(buffer);
+					machine->WriteRegister(2, t);
+					//DEBUG('s', "ForkExec finished.\n");
 					break;
 				}
 

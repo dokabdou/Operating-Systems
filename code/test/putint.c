@@ -8,6 +8,7 @@
 // on bien été effectués
 int main() {
 	PutInt(42);
-	return 0;
+	while(1);
+	//return 0;
 }
 #endif  // CHANGED

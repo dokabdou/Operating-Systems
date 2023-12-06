@@ -22,6 +22,7 @@ int main() {
 	fillString(toTest, 20);
 	PutString(toTest);
 	Halt();
-	return 0;
+	while(1);
+	//return 0;
 }
 #endif  // CHANGED

@@ -25,5 +25,6 @@ int main() {
 	ThreadCreate(f, &d);
 	ThreadCreate(f, &e);  // strange behavior: this thread is created but never executed probably
 	ThreadExit();
-	return 0;
+	while(1);
+	//return 0;
 }

@@ -35,7 +35,9 @@ void StartProcess(char* filename) {
 	try {
 		space = new AddrSpace(executable);
 	} catch (const NoMoreMemory& e) {
-		ASSERT_MSG(false, "Not enough memory");
+		#ifdef CHANGED
+		ASSERT_MSG(FALSE, "Not enough memory");
+		#endif // CHANGED
 	}
 
 	currentThread->space = space;

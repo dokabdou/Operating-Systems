@@ -1,6 +1,5 @@
 #ifdef CHANGED
 
-int do_ForkExec(char *filename);
-static void StartUserProc(void* space);
+int do_ForkExec(const char *s);
 
 #endif  // CHANGED
