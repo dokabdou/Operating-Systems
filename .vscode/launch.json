@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "debug makethread",
+            "name": "debug fokexectest",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/code/userprog/nachos",
@@ -15,7 +15,7 @@
                 "-rs",
                 "1234",
                 "-x",
-                "${workspaceFolder}/code/test/makethreads"
+                "${workspaceFolder}/code/test/forkexectest"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

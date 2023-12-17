@@ -5,5 +5,5 @@ int main(int argc, char const* argv[]) {
 	PutChar('b');
 	PutChar('c');
 	PutChar('d');
-	PutString("super le systeme d'exploitation !!");
+	PutString("super systeme d'exploitation !!");
 }

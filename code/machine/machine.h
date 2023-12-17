@@ -33,7 +33,7 @@
 	            // the disk sector size, for
 	            // simplicity
 
-#define NumPhysPages 64  // Increase this as necessary!
+#define NumPhysPages 2560  // Increase this as necessary!
 #define MemorySize (NumPhysPages * PageSize)
 #define TLBSize 4  // if there is a TLB, make it small
 
@@ -117,11 +117,11 @@ class Machine : public dontcopythis {
    public:
 	Machine(bool debug);  // Initialize the simulation of the hardware
 	                      // for running user programs
-	#ifdef CHANGED
+#ifdef CHANGED
 	int ProcessCounterInc();
 	int ProcessCounterDec();
-	#endif  // CHANGED
-	~Machine();           // De-allocate the data structures
+#endif           // CHANGED
+	~Machine();  // De-allocate the data structures
 
 	// Routines callable by the Nachos kernel
 	void Run(void);  // Run a user program
@@ -216,10 +216,10 @@ class Machine : public dontcopythis {
 	                   // simulated instruction
 	int runUntilTime;  // drop back into the debugger when simulated
 	                   // time reaches this value*
-	#ifdef CHANGED
+#ifdef CHANGED
 	int processCounter;
 	Lock* lockProcessCounter;  //
-	#endif  // CHANGED
+#endif                         // CHANGED
 };
 
 extern void ExceptionHandler(ExceptionType which);

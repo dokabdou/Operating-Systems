@@ -1,5 +1,6 @@
 #ifdef CHANGED
 #include "userthread.h"
+#include "forkexec.h"
 #include "syscall.h"
 #include "system.h"
 
@@ -81,7 +82,16 @@ void do_ThreadExit() {
 	int tc = currentThread->space->ThreadCounterDec();
 
 	if (tc == 0) {
-		interrupt->Powerdown();
+		// TODO: Should call Exit() but idk how
+		int pc = machine->ProcessCounterDec();
+		if (pc == 0) {
+			DEBUG('s', "No more processes are running, shutting down.\n");
+			interrupt->Powerdown();
+		} else {
+			// Free process resources
+			DEBUG('s', "Freeing process resources.\n");
+			cleanUpProcess();
+		}
 	}
 	currentThread->Finish();
 }

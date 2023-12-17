@@ -25,8 +25,8 @@
 #include "syscall.h"
 #include "system.h"
 #ifdef CHANGED
-#include "userthread.h"
 #include "forkexec.h"
+#include "userthread.h"
 #endif  // CHANGED
 
 //----------------------------------------------------------------------
@@ -98,13 +98,13 @@ void ExceptionHandler(ExceptionType which) {
 					int status = machine->ReadRegister(2);
 					DEBUG('s', "Exit status: %d\n", status);
 					int pc = machine->ProcessCounterDec();
-					if (pc == 1){
+					if (pc == 0) {
 						DEBUG('s', "No more processes are running, shutting down.\n");
 						interrupt->Powerdown();
 					} else {
 						// Free process resources
 						DEBUG('s', "Freeing process resources.\n");
-						 // TODO: free process resources
+						cleanUpProcess();
 					}
 					break;
 				}
@@ -145,17 +145,12 @@ void ExceptionHandler(ExceptionType which) {
 				case SC_ThreadCreate: {
 					DEBUG('s', "ThreadCreate called.\n");
 					int t = do_ThreadCreate(machine->ReadRegister(4), machine->ReadRegister(5));
-					machine->WriteRegister(2, t); // ??
+					machine->WriteRegister(2, t);  // ??
 					break;
 				}
 
 				case SC_ThreadExit: {
-					//  create a thread counter
 					do_ThreadExit();
-					/*while (1) {
-					    currentThread->Yield();
-					    // forces Scheduler to check for waiting threads and yields to waiting processes
-					}*/
 					break;
 				}
 
@@ -164,10 +159,10 @@ void ExceptionHandler(ExceptionType which) {
 					int from = machine->ReadRegister(4);
 					char* buffer = new char[MAX_STRING_SIZE];
 					consoledriver->copyStringFromMachine(from, buffer, MAX_STRING_SIZE);
-					
+
 					int t = do_ForkExec(buffer);
 					machine->WriteRegister(2, t);
-					//DEBUG('s', "ForkExec finished.\n");
+					// DEBUG('s', "ForkExec finished.\n");
 					break;
 				}
 

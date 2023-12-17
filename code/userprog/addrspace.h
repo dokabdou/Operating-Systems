@@ -25,8 +25,8 @@ class Lock;
 
 #ifdef CHANGED
 #define ThreadStacksAreaSize 256
-#endif                           // CHANGED
-#define UserStacksAreaSize 1024  // increase this as necessary!
+#endif                            // CHANGED
+#define UserStacksAreaSize 10240  // increase this as necessary!
 
 class AddrSpace : public dontcopythis {
    public:
